@@ -1,0 +1,21 @@
+form {
+    padding: 100px;
+}
+.ce-block--focused {
+    margin: 0 auto;
+}
+.ce-block__content, .ce-toolbar__content {
+    max-width: 100%;
+    border-radius: 2px; 
+}
+#id_title {
+    font-size: 2em;
+    border: 0;
+    border-bottom: 1px solid #ced4da;
+}
+.form-control#id_title:focus {
+    border-color: none;
+    border-bottom-color: #80bdff;
+    outline: 0;
+    box-shadow: none;
+}

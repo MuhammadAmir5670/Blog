@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-tags/dist/bootstrap-tagsinput.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/ImageInput/image-input-with-preload.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+{% endblock styles %}
+
+{% block content %}
+
+    <form method="post" id="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% include 'blog/post-form.html' %}
+
+        <input name="save-post" class="btn btn-success" type="submit" value="Save as Draft" onclick="submitForm()">
+        <input name="publish-post" class="btn btn-success" type="submit" value="Publish" onclick="submitForm(publish=true)">
+    </form>
+
+    {{ form.media }}
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'vendor/bootstrap-tags/dist/bootstrap-tagsinput.js' %}"></script>
+    <script src="{% static 'vendor/ImageInput/Image-input-with-preload.js' %}"></script>
+    <script>
+
+        $(".input-tags").tagsinput();
+        $("#id_image").ImagePreloadInput();
+    
+        function submitForm(publish=false) {
+            var status = "DRAFTED", form;
+            if (publish) {
+                status = "PUBLISHED"
+            }
+            form = addDataToForm("post-form", {"status": status});
+            form.submit();
+        }
+
+        function addDataToForm(form, data) {
+            if(typeof form === 'string') {
+                if(form[0] === '#') form = form.slice(1);
+                form = document.getElementById(form);
+            }
+        
+            var keys = Object.keys(data);
+            var name;
+            var value;
+            var input;
+        
+            for (var i = 0; i < keys.length; i++) {
+                name = keys[i];
+                // removing the inputs with the name if already exists [overide]
+                // console.log(form);
+                Array.prototype.forEach.call(form.elements, function (inpt) {
+                    if(inpt.name === name) {
+                        inpt.parentNode.removeChild(inpt);
+                    }
+                });
+        
+                value = data[name];
+                input = document.createElement('input');
+                input.setAttribute('name', name);
+                input.setAttribute('value', value);
+                input.setAttribute('type', 'hidden');
+        
+                form.appendChild(input);
+            }
+        
+            return form;
+        }
+        
+    </script>
+{% endblock scripts %}

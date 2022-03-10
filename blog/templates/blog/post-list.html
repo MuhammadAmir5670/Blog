@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+
+{% block styles %}
+
+    <style>
+        .image-container img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .posts-list-container {
+            max-width: 800px;
+        }
+        .wrapper {
+            width: fit-content;
+            margin: auto;
+            overflow: visible;
+        }
+
+        .wrapper main {
+            float: left;
+        }
+
+        aside {
+            overflow: visible;
+            width: 400px;
+            height: 130vh;
+            position: sticky;
+            top: -200px;
+            background-color: rebeccapurple;         
+        }
+        
+        .verticle-line {
+            position: sticky;
+            top: 0px;
+            width: 1px;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        .streched-link {
+            font-style: none;
+            color: inherit;
+            text-decoration: none;
+        }
+        .streched-link:hover {
+            font-style: none;
+            color: inherit;
+            text-decoration: none;
+        }
+        .streched-link:visited {
+            font-style: none;
+            color: inherit;
+            text-decoration: none;
+        }
+
+    </style>
+    
+{% endblock styles %}
+    
+
+{% block body %}
+
+        <div class="h-50 w-100" style="height: 200px !important;"></div>
+
+        <!-- main content wrapper -->
+        <div class="wrapper d-flex justify-content-center align-items-start">
+            <main class="posts-list-container p-0 m-0">
+                
+                <!-- Post cards -->
+                {% for post in posts %}
+                
+                <div class="card mb-5 border-0" style="max-width: 100%;">
+                    <div class="row no-gutters">
+                        <!-- Card Content -->
+                        <div class="col-md-9">
+                            <div class="card-body p-0 pr-4">
+                                
+                                <!-- Card Author Info -->
+                                <div class="mb-2 align-items-center">
+                                    <div class="rounded-circle d-inline-block">
+                                        <img src="{{ post.author.porfile.image.url }}" class="rounded-circle profile-image d-inline-block" width="25">
+                                    </div>
+                                    <span class="text-capitalize text-sm font-weight-bold ml-2" style="font-size: 13px;">{{post.author.first_name}} {{post.author.last_name}}</span>
+                                </div>
+
+                                <a href="{{ post.get_absolute_url }}" class="streched-link">
+                                    <h4 class="card-title font-weight-bold mb-2" style="font-size: 22px;">{{ post.title }}</h4>
+                                    <h6 class="card-text mb-1 text-muted font-weight-light" style="font-size: 16px;">{{ post.snippet }}</h6>
+                                </a>
+
+                                <div class="text-muted d-flex justify-content-between align-items-center">
+                                    <div style="font-size: 13px;">
+                                        {{ post.published_on|naturaltime }} <b>.</b> 
+                                        {{post.read_time}} min <b>.</b>  
+                                        <small><span class="badge-pill badge-muted p-1 px-2">Django</span></small>
+                                    </div>
+
+                                    <div>
+                                        <a href="#" class="btn p-1 text-dark"><i class="far fa-bookmark"></i></a>
+                                        <a href="#" class="btn p-1 text-dark"><i class="fas fa-ellipsis-h"></i></a>
+                                    </div>
+                                
+                                </div>
+                                    
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-3 image-container">
+                            <a href="{{ post.get_absolute_url }}" class="streched-link">
+                                <img src="{{ post.image.url }}" class="card-img" alt="{{ post.image.name }}">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                <div class="h-50 w-100" style="height: 300px !important;"></div>
+                
+            </main>
+
+            <div class="verticle-line mx-4">
+
+            </div>
+    
+            <aside class="sidebar">
+    
+            </aside>
+        </div>
+
+    {% include 'includes/pagination.html' %}
+
+{% endblock body %}
